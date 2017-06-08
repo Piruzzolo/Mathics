@@ -1144,6 +1144,32 @@ class Abs(_MPMathFunction):
     mpmath_name = 'fabs'  # mpmath actually uses python abs(x) / x.__abs__()
 
 
+class Arg(SympyFunction):
+    """
+    <dl>
+    <dt>'Arg[$z$]'
+        <dd>returns the argument of the complex number $z$.
+    </dl>
+    >> Arg[3+4I]
+     = ArcTan[4/3]
+    #> Arg[0.5 + 2.3 I]
+     = 1.35674
+    #> % // Precision
+     = MachinePrecision
+    """
+    rules = {'Arg[Infinity]': '0',
+             'Arg[-Infinity]': 'Pi'}
+
+    attributes = ('Listable', 'NumericFunction', 'Protected')
+
+    def apply_complex(self, number, evaluation):
+        'Arg[number_Complex]'
+
+        return arg(number)
+
+    # TODO: add DirectedInfinity[] and ComplexInfinity[] handles
+
+
 class Sign(Builtin):
     """
     <dl>
